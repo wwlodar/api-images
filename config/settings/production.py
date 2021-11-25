@@ -8,7 +8,7 @@ ALLOWED_HOSTS = ALLOWED_HOSTS = ["api-images-project.herokuapp.com", "localhost"
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 mimetypes.add_type("text/css", ".css", True)
 
 prod_db = dj_database_url.config(conn_max_age=500)
@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'easy_thumbnails',
-    'whitenoise.runserver_nostatic',
+
 
 
 ]
@@ -39,7 +39,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CLOUDINARY_STORAGE = {

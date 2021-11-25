@@ -6,4 +6,3 @@ urlpatterns = [
     path('list/', ImagesListView.as_view(), name='image-list'),
     path('api-login', LoginView.as_view(), name='api-login'),
 ]
-handler500 = 'images.views.this_server_error'

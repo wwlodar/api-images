@@ -16,7 +16,6 @@ TEST_DIR = 'test_data'
 class AddImageViewTestCase(APITestCase):
     
     def tearDown(self):
-        print("\nDeleting temporary files...\n")
         try:
             shutil.rmtree(TEST_DIR)
         except OSError:
@@ -97,7 +96,6 @@ class AddImageViewTestCase(APITestCase):
 
 class ImagesListViewTestCase(APITestCase):
     def tearDown(self):
-        print("\nDeleting temporary files...\n")
         try:
             shutil.rmtree(TEST_DIR)
         except OSError:

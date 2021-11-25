@@ -1,5 +1,5 @@
 from rest_framework.generics import CreateAPIView, ListAPIView
-from .serializers import ImageSerializer, SerializerForExpiredLinks, TokenSerializer, LoginSerializers
+from .serializers import ImageSerializer, ImageExpiredLinkSerializer, TokenSerializer, LoginSerializers, LinkSerializer
 from rest_framework.response import Response
 from .models import UserPlan, Image, Link
 from easy_thumbnails.files import get_thumbnailer
@@ -17,7 +17,7 @@ class AddImageView(CreateAPIView):
     
     def get_serializer_class(self):
         if UserPlan.objects.get(user=self.request.user).account_tier.choose_exp_time:
-            return SerializerForExpiredLinks
+            return ImageExpiredLinkSerializer
         return ImageSerializer
     
     def perform_create(self, serializer):
@@ -56,10 +56,10 @@ class AddImageView(CreateAPIView):
 # it may be extended to provide links for thumbnails also - if client specifies
 class ImagesListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = ImageSerializer
+    serializer_class = LinkSerializer
     
     def get_queryset(self):
-        return Image.objects.all().filter(user=UserPlan.objects.get(user=self.request.user.pk))
+        return Link.objects.all().filter(user=UserPlan.objects.get(user=self.request.user.pk))
 
 
 def image_access(request, path):

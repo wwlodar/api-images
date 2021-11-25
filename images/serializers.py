@@ -1,4 +1,4 @@
-from .models import Image
+from .models import Image, Link
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
@@ -11,7 +11,7 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ('picture',)
 
 
-class SerializerForExpiredLinks(serializers.ModelSerializer):
+class ImageExpiredLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ('picture', 'expiring_time')
@@ -38,6 +38,7 @@ class LoginSerializers(serializers.Serializer):
         password = data.get('password')
 
         if username and password:
+
             user = authenticate(request=self.context.get('request'),
                                 username=username, password=password)
             if not user:
@@ -49,3 +50,8 @@ class LoginSerializers(serializers.Serializer):
         
         data['user'] = user
         return data
+
+class LinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Link
+        fields = ('link_to_image',)

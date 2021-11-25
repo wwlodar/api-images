@@ -97,7 +97,6 @@ class LinkTest(TestCase):
 
 class ImageTest(TestCase):
     def tearDown(self):
-        print("\nDeleting temporary files...\n")
         try:
             shutil.rmtree(TEST_DIR)
         except OSError:

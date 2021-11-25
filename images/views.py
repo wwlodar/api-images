@@ -95,7 +95,7 @@ import sys
 from django.template import loader, Context
 
 
-def this_server_error(request, template_name='cart/nondefault500.html'):
+def this_server_error(request, template_name='images/nondefault500.html'):
   """
   500 error handler.
   Templates: `500.html`

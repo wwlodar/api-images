@@ -20,13 +20,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'images.apps.ImagesConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'easy_thumbnails',
     'whitenoise.runserver_nostatic',
-    'cloudinary_storage',
-    'cloudinary',
+
 
 ]
 MIDDLEWARE = [

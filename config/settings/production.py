@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'easy_thumbnails',
     'whitenoise.runserver_nostatic',
+    'cloudinary_storage',
+    'cloudinary',
 
 ]
 MIDDLEWARE = [
@@ -40,9 +42,9 @@ MIDDLEWARE = [
 ]
 
 CLOUDINARY_STORAGE = {
-  'CLOUD_NAME': os.environ['YOUR_CLOUD_NAME'],
-  'API_KEY': os.environ['YOUR_API_KEY'],
-  'API_SECRET': os.environ['YOUR_API_SECRET'],
+    'CLOUD_NAME': os.environ['YOUR_CLOUD_NAME'],
+    'API_KEY': os.environ['YOUR_API_KEY'],
+    'API_SECRET': os.environ['YOUR_API_SECRET'],
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

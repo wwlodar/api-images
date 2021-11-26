@@ -42,7 +42,7 @@ class AddImageView(CreateAPIView):
             links_dict[height] = request.build_absolute_uri(link.link_gen)
         
         if account_plan.get_link_to_org:
-            link_obj = Link.objects.create(link_to_image=request.build_absolute_uri(instance.picture.url), user=UserPlan.objects.get(user=user),
+            link_obj = Link.objects.create(link_to_image=instance.picture.url, user=UserPlan.objects.get(user=user),
                                            expiring_time=instance.expiring_time)
             links_dict['org'] = request.build_absolute_uri(link_obj.link_gen)
 

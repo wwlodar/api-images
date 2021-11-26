@@ -11,15 +11,16 @@ from pathlib import Path
 class AccountTiers(models.Model):
     name = models.CharField(max_length=120)
     allowed_sizes = ArrayField(
-        ArrayField(
             models.CharField(max_length=10, blank=True),
-        ),
     )
     choose_exp_time = models.BooleanField()
     get_link_to_org = models.BooleanField()
     
     class Meta:
         verbose_name_plural = "AccountTiers"
+        
+    def __str__(self):
+        return self.name
 
 
 class UserPlan(models.Model):

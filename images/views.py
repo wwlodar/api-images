@@ -32,20 +32,20 @@ class AddImageView(CreateAPIView):
         user = self.request.user.pk
         account_plan = UserPlan.objects.get(user=user).account_tier
         links_dict = {}
-        for item2 in account_plan.allowed_sizes:
-            for height in item2:
-                size = (height, int(height) * int(instance.width) / int(instance.height))
-                thumb_url = get_thumbnailer(instance.picture).get_thumbnail({'size': size, 'crop': False})
+        for height in account_plan.allowed_sizes:
+            size = (height, int(height) * int(instance.width) / int(instance.height))
+            thumb_url = get_thumbnailer(instance.picture).get_thumbnail({'size': size, 'crop': False})
 
-                link = Link.objects.create(link_to_image=thumb_url.url, user=UserPlan.objects.get(user=user),
+            link = Link.objects.create(link_to_image=thumb_url.url, user=UserPlan.objects.get(user=user),
                                            expiring_time=instance.expiring_time)
-                links_dict[height] = request.build_absolute_uri(link.link_gen)
+
+            links_dict[height] = request.build_absolute_uri(link.link_gen)
         
-        link_obj = Link.objects.create(link_to_image=instance.picture.url, user=UserPlan.objects.get(user=user),
-                            expiring_time=instance.expiring_time)
         if account_plan.get_link_to_org:
+            link_obj = Link.objects.create(link_to_image=instance.picture.url, user=UserPlan.objects.get(user=user),
+                                           expiring_time=instance.expiring_time)
             links_dict['org'] = request.build_absolute_uri(link_obj.link_gen)
-        
+
         return Response({
             'status': 200,
             'links': links_dict

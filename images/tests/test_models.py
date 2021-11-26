@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ..models import AccountTiers,  Link, UserPlan, Image
+from ..models import AccountTiers, Link, UserPlan, Image
 from django.contrib.auth.models import User
 from freezegun import freeze_time
 from django.utils import timezone
@@ -14,7 +14,7 @@ TEST_DIR = 'test_data'
 class AccountTiersTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']],
+        AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400],
                                     choose_exp_time=True, get_link_to_org=True)
     
     def test_name(self):
@@ -34,12 +34,16 @@ class AccountTiersTest(TestCase):
     def test_get_link_to_org(self):
         account_tier = AccountTiers.objects.get(id=1)
         self.assertEqual(account_tier.get_link_to_org, True)
+    
+    def test_str(self):
+        account_tier = AccountTiers.objects.get(id=1)
+        self.assertEqual(str(account_tier), account_tier.name)
 
 
 class UserPlanTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']],
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400],
                                           choose_exp_time=True, get_link_to_org=True)
         
         user = User.objects.create(username='admin', password='password')
@@ -60,7 +64,7 @@ class LinkTest(TestCase):
     @classmethod
     @freeze_time("2021-01-14 03:21:34")
     def setUpTestData(cls):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']],
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400],
                                           choose_exp_time=True, get_link_to_org=True)
         
         user = User.objects.create(username='admin', password='password')
@@ -105,7 +109,7 @@ class ImageTest(TestCase):
     @classmethod
     @override_settings(MEDIA_ROOT=(TEST_DIR + '/media'))
     def setUpTestData(cls):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']],
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400],
                                           choose_exp_time=True, get_link_to_org=True)
         
         user = User.objects.create(username='admin', password='password')

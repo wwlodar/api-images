@@ -43,7 +43,7 @@ class AddImageViewTestCase(APITestCase):
         self.assertEqual(resp.content, b'{"detail":"Method \\"GET\\" not allowed."}')
     
     def test_correct_auth_post_incorrect_file(self):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']], choose_exp_time=False,
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400], choose_exp_time=False,
                                           get_link_to_org=False)
         user = User.objects.create_user(username='admin')
         user_with_plan = UserPlan.objects.create(user=user, account_tier=acc)
@@ -59,7 +59,7 @@ class AddImageViewTestCase(APITestCase):
     
     @override_settings(MEDIA_ROOT=(TEST_DIR + '/media'))
     def test_correct_auth_post_correct_file(self):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']], choose_exp_time=False,
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400], choose_exp_time=False,
                                           get_link_to_org=False)
         user = User.objects.create_user(username='admin')
         user_with_plan = UserPlan.objects.create(user=user, account_tier=acc)
@@ -72,12 +72,12 @@ class AddImageViewTestCase(APITestCase):
         
         self.assertEqual(resp.status_code, 200)
         self.assertIn('links', str(resp.content))
-        self.assertIn(acc.allowed_sizes[0][0], str(resp.content))
-        self.assertIn(acc.allowed_sizes[1][0], str(resp.content))
+        self.assertIn(str(acc.allowed_sizes[0]), str(resp.content))
+        self.assertIn(str(acc.allowed_sizes[1]), str(resp.content))
     
     @override_settings(MEDIA_ROOT=(TEST_DIR + '/media'))
     def test_correct_auth_post_correct_file_with_expired_link(self):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']], choose_exp_time=True,
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400], choose_exp_time=True,
                                           get_link_to_org=False)
         user = User.objects.create_user(username='admin')
         user_with_plan = UserPlan.objects.create(user=user, account_tier=acc)
@@ -90,8 +90,8 @@ class AddImageViewTestCase(APITestCase):
         
         self.assertEqual(resp.status_code, 200)
         self.assertIn('links', str(resp.content))
-        self.assertIn(acc.allowed_sizes[0][0], str(resp.content))
-        self.assertIn(acc.allowed_sizes[1][0], str(resp.content))
+        self.assertIn(str(acc.allowed_sizes[0]), str(resp.content))
+        self.assertIn(str(acc.allowed_sizes[1]), str(resp.content))
 
 
 class ImagesListViewTestCase(APITestCase):
@@ -114,7 +114,7 @@ class ImagesListViewTestCase(APITestCase):
         self.assertEqual(resp.content, b'{"detail":"Invalid token."}')
     
     def test_correct_auth_empty_list(self):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']], choose_exp_time=False,
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400], choose_exp_time=False,
                                           get_link_to_org=False)
         user = User.objects.create_user(username='admin')
         user_with_plan = UserPlan.objects.create(user=user, account_tier=acc)
@@ -130,21 +130,25 @@ class ImagesListViewTestCase(APITestCase):
         image_data = base64.b64decode("R0lGODlhAQABAIABAP8AAP///yH5BAEAAAEALAAAAAABAAEAAAICRAEAOw==")
         pic = SimpleUploadedFile("file.jpg", image_data, content_type="image/jpg")
         
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']], choose_exp_time=False,
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400], choose_exp_time=False,
                                           get_link_to_org=False)
         user1 = User.objects.create_user(username='admin1')
         user_with_plan1 = UserPlan.objects.create(user=user1, account_tier=acc)
         token1 = Token.objects.get(user=user1)
         image1 = Image.objects.create(user=user_with_plan1, picture=pic)
+        link1 = Link.objects.create(user=user_with_plan1, link_to_image=image1.picture.url)
         
         user2 = User.objects.create_user(username='admin')
         user_with_plan2 = UserPlan.objects.create(user=user2, account_tier=acc)
         token2 = Token.objects.get(user=user2)
         image2 = Image.objects.create(user=user_with_plan2, picture=pic)
+        link2 = Link.objects.create(user=user_with_plan2, link_to_image=image2.picture.url)
+
         
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Token ' + token2.key)
         resp = client.get('/api/list/')
+
         self.assertEqual(resp.status_code, 200)
         self.assertIn(str(image2.picture), str(resp.content))
         self.assertNotIn(str(image1.picture), str(resp.content))
@@ -166,10 +170,10 @@ class LoginViewTestCase(APITestCase):
         self.assertIn(str(Token.objects.get(user=user)), str(resp.content))
 
 
-class ImageAccess(APITestCase):
+class ImageAccessTest(APITestCase):
     @patch("builtins.open", new_callable=mock_open, read_data="data")
     def test_no_time_expiring(self, mock_file):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']],
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400],
                                           choose_exp_time=True, get_link_to_org=True)
         
         user = User.objects.create(username='admin', password='password')
@@ -182,7 +186,7 @@ class ImageAccess(APITestCase):
     
     @patch("builtins.open", new_callable=mock_open, read_data="data")
     def test_date_not_expired(self, mock_file):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']],
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400],
                                           choose_exp_time=True, get_link_to_org=True)
         
         user = User.objects.create(username='admin', password='password')
@@ -196,7 +200,7 @@ class ImageAccess(APITestCase):
         self.assertEqual(resp.status_code, 200)
     
     def test_date_expired(self):
-        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[['200'], ['400']],
+        acc = AccountTiers.objects.create(name='Basic', allowed_sizes=[200, 400],
                                           choose_exp_time=True, get_link_to_org=True)
         
         user = User.objects.create(username='admin', password='password')

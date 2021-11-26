@@ -36,9 +36,9 @@ class LoginSerializers(serializers.Serializer):
     def validate(self, data):
         username = data.get('username')
         password = data.get('password')
-
+        
         if username and password:
-
+            
             user = authenticate(request=self.context.get('request'),
                                 username=username, password=password)
             if not user:
@@ -50,6 +50,7 @@ class LoginSerializers(serializers.Serializer):
         
         data['user'] = user
         return data
+
 
 class LinkSerializer(serializers.ModelSerializer):
     class Meta:

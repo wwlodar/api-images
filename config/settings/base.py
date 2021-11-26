@@ -22,8 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY') or 'django-insecure-tk0non6^)42&^0^8c9t#r@(_)*vc(@1uvwo5zc)k+_k9lenm##'
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = os.environ.get('SECRET_KEY') or 'django-insecure-tk0non6^)42&^0^8c9t#r@(_)*vc(@1uvwo5zc)k+_k9lenm##'
 
 ROOT_URLCONF = 'config.urls'
 
@@ -48,20 +48,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-db_password = os.environ.get('POSTGRES_PASSWORD') or 'password'
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'api-images',
-        'USER': 'postgres',
-        'PASSWORD': db_password,
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+# db_password = os.environ.get('POSTGRES_PASSWORD') or 'password'
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'api-images',
+#         'USER': 'postgres',
+#         'PASSWORD': db_password,
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

@@ -11,8 +11,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 mimetypes.add_type("text/css", ".css", True)
 
-prod_db = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,3 +47,16 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'api-images',
+        'USER': 'postgres',
+        'PASSWORD': 'Pass',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+prod_db = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
+SECRET_KEY = os.environ.get('SECRET_KEY')

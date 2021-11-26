@@ -27,3 +27,16 @@ INSTALLED_APPS = [
 ]
 MEDIA_URL = '/api/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'api')
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'api-images',
+        'USER': 'postgres',
+        'PASSWORD': 'Pass',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+SECRET_KEY = 'django-insecure-tk0non6^)42&^0^8c9t#r@(_)*vc(@1uvwo5zc)k+_k9lenm##'

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ..models import AccountTiers, Link, UserPlan, Image
+from images.models import AccountTiers, Link, UserPlan, Image
 from django.contrib.auth.models import User
 from freezegun import freeze_time
 from django.utils import timezone

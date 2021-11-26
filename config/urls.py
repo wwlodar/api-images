@@ -31,6 +31,6 @@ urlpatterns = [
          ),
     path('api/image/<str:path>', image_access, name='image-access'),
 ]
-handler500 = 'images.views.this_server_error'
+
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

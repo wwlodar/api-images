@@ -1,8 +1,10 @@
 from .base import *
+import os
+import dj_database_url
 
 DEBUG = True
 ALLOWED_HOSTS = ['*']
-
+SECRET_KEY = os.environ.get('SECRET_KEY')
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -25,8 +27,6 @@ INSTALLED_APPS = [
     'easy_thumbnails',
 
 ]
-MEDIA_URL = '/api/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'api')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -39,4 +39,6 @@ DATABASES = {
 }
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
-SECRET_KEY = 'django-insecure-tk0non6^)42&^0^8c9t#r@(_)*vc(@1uvwo5zc)k+_k9lenm##'
+
+MEDIA_URL = '/api/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'api')

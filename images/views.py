@@ -91,20 +91,3 @@ class LoginView(APIView):
             'status': 200,
             'Authorization': 'Token ' + str(token.data)
         })
-
-
-from django import http
-import sys
-from django.template import loader, Context
-
-
-def this_server_error(request, template_name='images/nondefault500.html'):
-    """
-    500 error handler.
-    Templates: `500.html`
-    Context: sys.exc_info() results
-     """
-    t = loader.get_template(template_name)  # You need to create a 500.html template.
-    ltype, lvalue, ltraceback = sys.exc_info()
-    context = {'type': ltype, 'value': lvalue, 'traceback': ltraceback}
-    return http.HttpResponseServerError(t.render(context))

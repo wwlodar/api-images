@@ -15,7 +15,6 @@ To pass token into to header, you can make a curl request or use chrome extensio
 
 
 ### Testing
-Admin creadentials are: username='admin', password='Pass1212', example of user: username='user1', password='Pass1212'
 If you widh to create new users via admin panel, remember to generate Token and add UserPlan. 
 
 
@@ -36,10 +35,19 @@ Set environment variable
 ```
 DJANGO_SETTINGS_MODULE=config.settings.development
 ```
-You can now run the development server:
+Make migrations:
 ```
 $ python manage.py migrate
+```
+Load created AccountTiers:
+```
 $ python manage.py loaddata fixtures.json
+```
+Create admin user:
+```
 $ python manage.py createsuperuser
+```
+Run project: 
+```
 $ python manage.py runserver
 ```

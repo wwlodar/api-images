@@ -32,11 +32,14 @@ Install project dependencies:
 ```
 $ pip install -r requirements.txt
 ```
-Apply migrations:
+Set environment variable
 ```
-$ python manage.py migrate
+DJANGO_SETTINGS_MODULE=config.settings.development
 ```
 You can now run the development server:
 ```
+$ python manage.py migrate
+$ python manage.py loaddata fixtures.json
+$ python manage.py createsuperuser
 $ python manage.py runserver
 ```

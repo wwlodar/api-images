@@ -1,0 +1,32 @@
+[
+  {
+    "model": "images.AccountTiers",
+    "pk": 1,
+    "fields": {
+      "name": "Basic",
+      "allowed_sizes": [200],
+      "choose_exp_time": "False",
+      "get_link_to_org": "False"
+    }
+  },
+  {
+    "model": "images.AccountTiers",
+    "pk": 2,
+    "fields": {
+      "name": "Premium",
+      "allowed_sizes": [200,400],
+      "choose_exp_time":"False",
+      "get_link_to_org":"True"
+    }
+  },
+  {
+    "model": "images.AccountTiers",
+    "pk": 3,
+    "fields": {
+      "name": "Enterprise",
+      "allowed_sizes": [200,400],
+      "choose_exp_time":"True",
+      "get_link_to_org":"True"
+    }
+  }
+]

@@ -4,7 +4,7 @@ import mimetypes
 
 DEBUG = False
 
-ALLOWED_HOSTS = ALLOWED_HOSTS = ["api-images-project.herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["api-images-project.herokuapp.com", "localhost", "127.0.0.1"]
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")

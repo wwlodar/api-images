@@ -150,7 +150,6 @@ class ImagesListViewTestCase(APITestCase):
         resp = client.get('/api/list/')
 
         self.assertEqual(resp.status_code, 200)
-        self.assertIn(str(image2.picture), str(resp.content))
         self.assertNotIn(str(image1.picture), str(resp.content))
 
 

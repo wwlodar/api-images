@@ -64,13 +64,15 @@ class ImagesListView(ListAPIView):
 
 
 def image_access(request, path):
-    print(path)
     link_obj = Link.objects.get(link_gen=('image/') + path)
     utc = pytz.UTC
     if link_obj.expired_date is None or link_obj.expired_date.replace(tzinfo=utc) > datetime.now().replace(tzinfo=utc):
         path = link_obj.link_to_image.strip('/')
-        response = FileResponse(open(path, 'rb+'))
-        return response
+        try:
+            response = FileResponse(open(path, 'rb+'))
+            return response
+        except:
+            pass
     else:
         return HttpResponseForbidden('Access to this link has expired.')
 

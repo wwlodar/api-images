@@ -12,7 +12,7 @@ djangorestframework 3.12.4
 This api requires a token to be passed in a header in order to get access to certain endpoints.
 Passing token in a header is a secure way to provide authentication in contrast to providing it directly in url.
 To pass token into to header, you can make a curl request or use chrome extension "ModHeader"
-![img.png](img.png)
+
 
 ### Testing
 Admin creadentials are: username='admin', password='Pass1212', example of user: username='user1', password='Pass1212'

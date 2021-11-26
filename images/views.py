@@ -36,13 +36,13 @@ class AddImageView(CreateAPIView):
             size = (height, int(height) * int(instance.width) / int(instance.height))
             thumb_url = get_thumbnailer(instance.picture).get_thumbnail({'size': size, 'crop': False})
 
-            link = Link.objects.create(link_to_image=thumb_url.url, user=UserPlan.objects.get(user=user),
+            link = Link.objects.create(link_to_image=request.build_absolute_uri(thumb_url.url), user=UserPlan.objects.get(user=user),
                                            expiring_time=instance.expiring_time)
 
             links_dict[height] = request.build_absolute_uri(link.link_gen)
         
         if account_plan.get_link_to_org:
-            link_obj = Link.objects.create(link_to_image=instance.picture.url, user=UserPlan.objects.get(user=user),
+            link_obj = Link.objects.create(link_to_image=request.build_absolute_uri(instance.picture.url), user=UserPlan.objects.get(user=user),
                                            expiring_time=instance.expiring_time)
             links_dict['org'] = request.build_absolute_uri(link_obj.link_gen)
 
@@ -60,6 +60,7 @@ class ImagesListView(ListAPIView):
     
     def get_queryset(self):
         return Link.objects.all().filter(user=UserPlan.objects.get(user=self.request.user.pk))
+
 
 
 def image_access(request, path):

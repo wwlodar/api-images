@@ -56,3 +56,6 @@ class Link(models.Model):
             self.expired_date = datetime.now() + timedelta(seconds=float(self.expiring_time))
         self.link_gen = 'image/' + Path(self.link_to_image).stem
         super(Link, self).save(*args, **kwargs)
+        
+    def get_absolute(self):
+        return self.request(self.link_gen)

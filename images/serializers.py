@@ -53,6 +53,11 @@ class LoginSerializers(serializers.Serializer):
 
 
 class LinkSerializer(serializers.ModelSerializer):
+    link_gen = serializers.SerializerMethodField('link_gen1')
+    
     class Meta:
         model = Link
-        fields = ('link_to_image',)
+        fields = ('link_gen',)
+
+    def link_gen1(self, obj):
+        return self.context['request'].build_absolute_uri(obj['link_gen']).replace('list/', '')

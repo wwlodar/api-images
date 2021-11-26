@@ -26,5 +26,5 @@ INSTALLED_APPS = [
     'easy_thumbnails',
 
 ]
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/api/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'api')

@@ -69,7 +69,7 @@ def image_access(request, path):
             response = FileResponse(open(path, 'rb+'))
             return response
         except:
-            response = HttpResponseRedirect(open(path, 'rb+'))
+            response = HttpResponseRedirect(path)
             return response
 
     else:

@@ -10,7 +10,7 @@ from django.http.response import FileResponse
 from django.http import HttpResponseForbidden
 import pytz
 from datetime import datetime
-
+from django.http import HttpResponseRedirect
 
 class AddImageView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
@@ -51,10 +51,7 @@ class AddImageView(CreateAPIView):
             'links': links_dict
         })
 
-from django.db.models.functions import Concat
-from django.db.models import F, Value, CharField
-# this endpoint provides list of all original images uploaded by user
-# it may be extended to provide links for thumbnails also - if client specifies
+
 class ImagesListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = LinkSerializer
@@ -72,7 +69,7 @@ def image_access(request, path):
             response = FileResponse(open(path, 'rb+'))
             return response
         except:
-            response = FileResponse(open(path, 'rb+'))
+            response = HttpResponseRedirect(open(path, 'rb+'))
             return response
 
     else:

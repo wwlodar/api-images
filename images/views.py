@@ -36,7 +36,7 @@ class AddImageView(CreateAPIView):
             size = (height, int(height) * int(instance.width) / int(instance.height))
             thumb_url = get_thumbnailer(instance.picture).get_thumbnail({'size': size, 'crop': False})
 
-            link = Link.objects.create(link_to_image=request.build_absolute_uri(thumb_url.url), user=UserPlan.objects.get(user=user),
+            link = Link.objects.create(link_to_image=thumb_url.url, user=UserPlan.objects.get(user=user),
                                            expiring_time=instance.expiring_time)
 
             links_dict[height] = request.build_absolute_uri(link.link_gen)
@@ -56,10 +56,10 @@ class AddImageView(CreateAPIView):
 # it may be extended to provide links for thumbnails also - if client specifies
 class ImagesListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = LinkSerializer
+    serializer_class = ImageSerializer
     
     def get_queryset(self):
-        return Link.objects.all().filter(user=UserPlan.objects.get(user=self.request.user.pk))
+        return Image.objects.all().filter(user=UserPlan.objects.get(user=self.request.user.pk))
 
 
 
